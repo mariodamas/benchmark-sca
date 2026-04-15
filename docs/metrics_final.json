@@ -1,0 +1,98 @@
+{
+  "phase1": {
+    "grype": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 129,
+      "Precision": 0,
+      "Recall": 0.0,
+      "F1": 0
+    },
+    "dtrack": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 129,
+      "Precision": 0,
+      "Recall": 0.0,
+      "F1": 0
+    },
+    "snyk": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 129,
+      "Precision": 0,
+      "Recall": 0.0,
+      "F1": 0
+    },
+    "trivy": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 129,
+      "Precision": 0,
+      "Recall": 0.0,
+      "F1": 0
+    }
+  },
+  "phase2": {
+    "snyk_unmanaged": {
+      "TP": 39,
+      "FP": 8,
+      "FN": 10,
+      "Precision": 83.0,
+      "Recall": 79.6,
+      "F1": 0.812
+    },
+    "owasp_dc": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 49,
+      "Precision": 0,
+      "Recall": 0.0,
+      "F1": 0
+    }
+  },
+  "phase3_full_gt": {
+    "cbt": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 196,
+      "Precision": 0,
+      "Recall": 0.0,
+      "F1": 0
+    },
+    "grype": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 196,
+      "Precision": 0,
+      "Recall": 0.0,
+      "F1": 0
+    },
+    "trivy": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 196,
+      "Precision": 0,
+      "Recall": 0.0,
+      "F1": 0
+    },
+    "emba": {
+      "TP": 0,
+      "FP": 1,
+      "FN": 196,
+      "Precision": 0.0,
+      "Recall": 0.0,
+      "F1": 0
+    }
+  },
+  "phase3_effective_gt": {
+    "cbt": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 37,
+      "Precision": 0,
+      "Recall": 0.0,
+      "F1": 0
+    }
+  }
+}

@@ -1,0 +1,47 @@
+[12:53:22] === BENCHMARK SCA - EJECUCION COMPLETA 20260409_125322 ===
+[12:53:22] PROJ=/mnt/c/Users/EXTmdamas/Downloads/benchmark_sca-master/benchmark_sca-master
+[12:53:22] BIN=/mnt/c/Users/EXTmdamas/Downloads/benchmark_sca-master/benchmark_sca-master/build/mi-gateway
+[12:53:22] SBOM=/mnt/c/Users/EXTmdamas/Downloads/benchmark_sca-master/benchmark_sca-master/sbom/sbom-cyclonedx.json
+[12:53:22] SNYK_TOKEN presente: SI
+[12:53:22] >>> FASE 1: SBOM
+Flag --file has been deprecated, use: --output FORMAT=PATH
+[12:53:31]   => syft: 9s
+[12:54:13]   => grype: 42s
+[12:54:28]   => trivy: 15s
+scripts/run_all_phases.sh: line 39: /home/mdamas/.local/bin/snyk: Permission denied
+[12:54:28]   => snyk phase1: 0s
+scripts/run_all_phases.sh: line 84: /home/mdamas/.local/bin/snyk: Permission denied
+[12:54:28] >>> FASE 1 TIEMPOS: syft=9s grype=42s trivy=15s snyk=0s
+[12:54:28] >>> FASE 2: VENDORING
+scripts/run_all_phases.sh: line 39: /home/mdamas/.local/bin/snyk: Permission denied
+[12:54:28]   => snyk unmanaged: 0s
+scripts/run_all_phases.sh: line 104: /home/mdamas/.local/bin/snyk: Permission denied
+[12:54:28]   => OWASP DC no instalado o lib/ inexistente
+[12:54:28] >>> FASE 2 TIEMPOS: snyk_unmanaged=0s owasp_dc=0s
+[12:54:28] >>> FASE 3: BINARIO
+╭─────────────────────────────── Traceback (most recent call last) ────────────────────────────────╮
+│ /home/mdamas/.local/lib/python3.10/site-packages/cve_bin_tool/cli.py:909 in main                 │
+│                                                                                                  │
+│    906 │   # CVE Database validation                                                             │
+│    907 │   if not cvedb_orig.check_cve_entries():                                                │
+│    908 │   │   with ErrorHandler(mode=error_mode, logger=LOGGER):                                │
+│ ❱  909 │   │   │   raise CVEDataMissing("No data in CVE Database")                               │
+│    910 │                                                                                         │
+│    911 │   # Report time of last database update                                                 │
+│    912 │   db_date = time.strftime(                                                              │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+CVEDataMissing: No data in CVE Database
+[12:54:33]   => cve-bin-tool: 5s
+[12:54:34]   => grype binary: 1s
+[12:54:34]   => trivy binary: 0s
+[12:54:34] >>> FASE 3B: EMBA (opcional)
+[12:54:39]   => emba: 5s
+[12:54:39] ========================================================
+[12:54:39] RESUMEN TIEMPOS
+[12:54:39] ========================================================
+[12:54:39] FASE 1: syft=9s grype=42s trivy=15s snyk=0s
+[12:54:39] FASE 2: snyk_unmanaged=0s owasp_dc=0s
+[12:54:39] FASE 3: cbt=5s grype=1s trivy=0s emba=5s
+[12:54:39] TOTAL PIPELINE: 77s
+[12:54:39] Resultados en: /mnt/c/Users/EXTmdamas/Downloads/benchmark_sca-master/benchmark_sca-master/tests/sca_results
+[12:54:39] Log completo: /mnt/c/Users/EXTmdamas/Downloads/benchmark_sca-master/benchmark_sca-master/docs/run_all_phases_20260409_125322.log

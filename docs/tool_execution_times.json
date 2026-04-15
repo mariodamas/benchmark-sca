@@ -1,0 +1,50 @@
+{
+  "timestamp": "20260409_130345",
+  "phase1": {
+    "syft_sbom_gen": {
+      "seconds": 9,
+      "tool": "syft"
+    },
+    "grype_sbom": {
+      "seconds": 4,
+      "tool": "grype"
+    },
+    "trivy_sbom": {
+      "seconds": 1,
+      "tool": "trivy"
+    },
+    "snyk_phase1": {
+      "seconds": 7,
+      "tool": "snyk"
+    }
+  },
+  "phase2": {
+    "snyk_unmanaged": {
+      "seconds": 14,
+      "tool": "snyk --unmanaged"
+    },
+    "owasp_dc": {
+      "seconds": 0,
+      "tool": "owasp-dc"
+    }
+  },
+  "phase3": {
+    "cve_bin_tool": {
+      "seconds": 1,
+      "tool": "cve-bin-tool"
+    },
+    "grype_binary": {
+      "seconds": 1,
+      "tool": "grype"
+    },
+    "trivy_binary": {
+      "seconds": 0,
+      "tool": "trivy"
+    },
+    "emba_optional": {
+      "seconds": 6,
+      "tool": "EMBA"
+    }
+  },
+  "total_seconds": 43
+}

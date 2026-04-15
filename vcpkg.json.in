@@ -1,0 +1,44 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "mi-gateway-iot",
+  "version": "@PROJECT_VERSION@",
+  "description": "Benchmark SCA para herramientas de análisis de composición de software en entornos embebidos C/C++. NOTA: versiones de dependencias son deliberadamente vulnerables para evaluación.",
+  "dependencies": [
+    {
+      "name": "zlib",
+      "version>=": "1.2.11",
+      "version<": "1.2.12",
+      "$comment": "BENCHMARK: CVE-2022-37434, CVE-2018-25032, CVE-2023-45853"
+    },
+    {
+      "name": "libpng",
+      "version>=": "1.6.34",
+      "version<": "1.6.35",
+      "$comment": "BENCHMARK: CVE-2018-13785, CVE-2019-7317"
+    },
+    {
+      "name": "expat",
+      "version>=": "2.4.6",
+      "version<": "2.4.7",
+      "$comment": "BENCHMARK: CVE-2022-25235, CVE-2022-25236, CVE-2022-25313, CVE-2022-25314, CVE-2022-25315"
+    },
+    {
+      "name": "sqlite3",
+      "version>=": "3.39.1",
+      "version<": "3.39.2",
+      "$comment": "BENCHMARK: CVE-2022-35737"
+    },
+    {
+      "name": "curl",
+      "version>=": "7.58.0",
+      "version<": "7.58.1",
+      "$comment": "BENCHMARK: CVE-2018-1000007, CVE-2018-1000120, CVE-2018-1000121, CVE-2018-1000122, CVE-2018-1000301"
+    },
+    {
+      "name": "openssl",
+      "version>=": "1.0.2k",
+      "version<": "1.0.2l",
+      "$comment": "BENCHMARK: CVE-2017-3735, CVE-2018-0737, CVE-2018-0739, CVE-2017-3737"
+    }
+  ]
+}

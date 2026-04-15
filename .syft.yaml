@@ -1,0 +1,12 @@
+# .syft.yaml — configuración mínima compatible con Syft 1.x
+
+file:
+  metadata:
+    digests:
+      - sha256
+
+exclude:
+  - "**/build/**"
+  - "**/.git/**"
+  - "**/tests/sca_results/**"
+  - "**/.venv/**"

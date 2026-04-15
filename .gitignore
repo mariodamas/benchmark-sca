@@ -1,0 +1,37 @@
+# Build artifacts
+build/
+cmake-build-*/
+
+# SBOM (generated, not tracked)
+sbom/
+
+# SCA results (generated, not tracked)
+tests/sca_results/
+
+# vcpkg.json (generated from vcpkg.json.in by CMake)
+vcpkg.json
+
+# Downloaded vulnerable libraries
+# (reproducible via scripts/setup.sh — no need to track)
+lib/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Local secrets / environment
+.env
+.env.local
+
+# ORT
+.ort/
+ort-results/
+
+#claude
+.claude/
