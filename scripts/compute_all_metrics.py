@@ -122,54 +122,53 @@ def extract_owasp_dc(path):
 def extract_emba(path):
     """
     Extrae CVEs de EMBA usando el JSON de estado (`phase3_emba_latest.json`).
-    Busca CVEs en:
-    1) log_file de ejecucion
-    2) report_path (recursivo)
+    Lee directamente de los archivos CSV en f17_cve_bin_tool/ (más confiable).
+    Fallback: busca en f17_cve_bin_tool/vuln_summary.txt
     """
     status = json.load(open(path, encoding='utf-8'))
     cves = set()
     cve_re = re.compile(r"\bCVE-\d{4}-\d+\b", re.IGNORECASE)
 
-    def collect_from_file(file_path: Path):
-        if not file_path.is_file():
-            return
-        try:
-            # Evita lecturas pesadas de binarios/artefactos grandes.
-            if file_path.stat().st_size > 5 * 1024 * 1024:
-                return
-            text = file_path.read_text(encoding='utf-8', errors='ignore')
-            for m in cve_re.findall(text):
-                cves.add(m.upper())
-        except Exception:
-            return
-
-    def collect_from_tree(root: Path):
-        if not root.is_dir():
-            return
-        for p in root.rglob('*'):
-            collect_from_file(p)
-
-    log_file = status.get('log_file', '')
-    if log_file:
-        collect_from_file(Path(log_file))
-
     report_path = status.get('report_path', '')
+    
     if report_path:
-        report_dir = Path(report_path)
-        collect_from_tree(report_dir)
-
-    # Fallback: si latest no tiene CVEs parseables, usar el artefacto EMBA
-    # mas reciente con contenido util para no perder visibilidad en metricas.
+        f17_dir = Path(report_path) / 'f17_cve_bin_tool'
+        if f17_dir.is_dir():
+            # Busca archivos CSV con patrón *_libXXX_*.csv
+            csv_files = list(f17_dir.glob('*_lib*.csv')) + list(f17_dir.glob('*_expat*.csv')) + \
+                        list(f17_dir.glob('*_zlib*.csv')) + list(f17_dir.glob('*_sqlite*.csv'))
+            
+            for csv_file in csv_files:
+                try:
+                    text = csv_file.read_text(encoding='utf-8', errors='ignore')
+                    for match in cve_re.findall(text):
+                        cves.add(match.upper())
+                except Exception:
+                    pass
+    
+    # Fallback a vuln_summary.txt si no encontró CVEs en CSV
+    if not cves and report_path:
+        vuln_summary = Path(report_path) / 'f17_cve_bin_tool' / 'vuln_summary.txt'
+        if vuln_summary.is_file():
+            try:
+                text = vuln_summary.read_text(encoding='utf-8', errors='ignore')
+                for match in cve_re.findall(text):
+                    cves.add(match.upper())
+            except Exception:
+                pass
+    
+    # Fallback a log_file
     if not cves:
-        candidates = []
-        candidates.extend(sorted(RES.glob('emba_forced_run*')))
-        candidates.extend(sorted(RES.glob('emba_out_*')))
-        for candidate in sorted(candidates, key=lambda p: p.stat().st_mtime, reverse=True):
-            before = len(cves)
-            if candidate.is_dir():
-                collect_from_tree(candidate)
-            if len(cves) > before:
-                break
+        log_file = status.get('log_file', '')
+        if log_file:
+            log_path = Path(log_file)
+            if log_path.is_file():
+                try:
+                    text = log_path.read_text(encoding='utf-8', errors='ignore')
+                    for match in cve_re.findall(text):
+                        cves.add(match.upper())
+                except Exception:
+                    pass
 
     return cves
 

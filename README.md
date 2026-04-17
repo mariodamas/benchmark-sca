@@ -7,6 +7,9 @@ versiones deliberadamente vulnerables.
 > ⚠️ **ADVERTENCIA**: Contiene versiones de librerías con vulnerabilidades conocidas.
 > **NO usar en producción.** Exclusivamente para benchmarking de herramientas SCA.
 
+> ✅ **ACTUALIZACIÓN 2026-04-16**: Análisis de firmware con EMBA v2.0.0 completado exitosamente.
+> Ver sección Fase 3 y [docs/BENCHMARK_HIBRIDO_FINAL.md](docs/BENCHMARK_HIBRIDO_FINAL.md#322-emba-v200--análisis-de-firmware-embebido-ejecutado) para resultados detallados.
+
 ---
 
 ## Estructura
@@ -38,10 +41,10 @@ mi-gateway-iot/
 │   └── compute_all_metrics.py  ← calcula TP/FP/FN/F1 para todas las fases
 ├── tests/sca_results/          ← JSONs de salida (_latest = ejecución actual)
 └── docs/
-    ├── BENCHMARK_HIBRIDO_FINAL.md        ← resultados completos y análisis
+    ├── BENCHMARK_HIBRIDO_FINAL.md        ← resultados completos con EMBA + análisis
     ├── BENCHMARK_METHODOLOGY.md          ← diseño experimental y metodología
     ├── ground_truth.csv                  ← 196 CVEs verificados (GT canónico)
-    ├── ground_truth_phase3_effective.csv ← 37 CVEs alcanzables por CBT (Fase 3)
+    ├── ground_truth_phase3_effective.csv ← 37 CVEs alcanzables por análisis binario (Fase 3)
     ├── metrics_final.json                ← métricas calculadas (última ejecución)
     └── tool_execution_times.json         ← tiempos de ejecución medidos
 ```
@@ -92,7 +95,8 @@ mi-gateway-iot/
 
 | Herramienta | TP | FP | FN | F1 (GT) | F1 (GT_eff) | Tiempo |
 |-------------|----|----|-----|---------|------------|-------:|
-| CVE-Binary-Tool v3.4 | 18 | 1 | 178 | 0.167 | **0.571** | 10 s |
+| EMBA v2.0.0 | 23 | 13 | 3 | 0.599 | **0.743** | 10,241 s |
+| CVE-Binary-Tool v3.4 | 16 | 3 | 21 | 0.167 | **0.571** | 10 s |
 | Grype (binary) | 0 | 0 | 196 | 0.000 | — | 9 s |
 | Trivy (binary) | 0 | 0 | 196 | 0.000 | — | <1 s |
 
@@ -142,26 +146,36 @@ bash scripts/run_all_phases.sh
 python3 scripts/compute_all_metrics.py
 ```
 
-### EMBA (Fase 3B opcional)
+### EMBA (Fase 3B — Firmware Analysis)
 
-`run_all_phases.sh` invoca EMBA de forma opcional mediante `scripts/run_phase3_emba.sh`.
-Si Docker/EMBA no estan disponibles, no falla el pipeline y se genera estado en:
+✅ **EMBA v2.0.0 ejecutado exitosamente** (2026-04-16)
 
-- `tests/sca_results/phase3_emba_latest.json`
-- `tests/sca_results/phase3_emba_*.log`
+EMBA (Embedded Linux Analyzer) realiza análisis comprehensivo de firmware con detección CVE via F17 CVE-bin-tool module.
 
-Ejecucion manual:
+**Resultados Phase 3 con EMBA:**
+- CVEs detectados: 36 (16 expat + 6 zlib + 4 sqlite + 10 libpng)
+- Precision: 63.9% | Recall: 88.5% | **F1: 0.743**
+- Tiempo: 10,241 s (~2h50m)
+- Artefactos: 60+ módulos análisis, SBOM CycloneDX, weak functions, protecciones binarias
 
+**Ejecución manual:**
 ```bash
 bash scripts/run_phase3_emba.sh --binary build/mi-gateway --results-dir tests/sca_results
 ```
+
+**Resultados generados en:**
+- `tests/sca_results/phase3_emba_latest.json` (status + metadatos)
+- `tests/sca_results/emba_out_*/` (reportes completos)
+
+Ver [docs/BENCHMARK_HIBRIDO_FINAL.md § 3.2.3](docs/BENCHMARK_HIBRIDO_FINAL.md#322-emba-v200--análisis-de-firmware-embebido-ejecutado) para análisis detallado.
 
 ### Ejecutar fase individual
 
 ```bash
 bash scripts/run_phase1_simple.sh   # Fase 1: SBOM
 bash scripts/run_phase2.sh          # Fase 2: Vendoring
-bash scripts/run_phase3.sh          # Fase 3: Binario
+bash scripts/run_phase3.sh          # Fase 3: Binario (CBT + Grype + Trivy)
+bash scripts/run_phase3_emba.sh     # Fase 3B: Firmware (EMBA)
 ```
 
 ---

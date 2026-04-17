@@ -78,9 +78,9 @@
     },
     "emba": {
       "TP": 0,
-      "FP": 1,
+      "FP": 0,
       "FN": 196,
-      "Precision": 0.0,
+      "Precision": 0,
       "Recall": 0.0,
       "F1": 0
     }

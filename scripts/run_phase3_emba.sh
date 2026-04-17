@@ -90,7 +90,8 @@ if [ -n "$emba_cmd" ]; then
     OUT_DIR="$RESULTS_DIR/emba_out_${TS}"
     mkdir -p "$OUT_DIR"
 
-    emba_args=( -f "$BINARY" -l "$OUT_DIR" -s )
+    # -y avoids interactive prompt if EMBA reuses an existing output directory.
+    emba_args=( -f "$BINARY" -l "$OUT_DIR" -s -y )
     if [ "$FORCE_MODE" -eq 1 ]; then
         emba_args+=( -F )
     fi
