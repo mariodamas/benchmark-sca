@@ -1,98 +1,163 @@
 {
+  "_comment": "Métricas finales del benchmark SCA. Verificadas contra NVD API v2 (2026-04-07/16).",
+  "ground_truth": {
+    "total_cves": 196,
+    "phase1_sbom_gt": 129,
+    "phase2_vendoring_gt": 49,
+    "phase3_full_gt": 196,
+    "phase3_effective_gt": 37
+  },
   "phase1": {
     "grype": {
-      "TP": 0,
-      "FP": 0,
-      "FN": 129,
-      "Precision": 0,
-      "Recall": 0.0,
-      "F1": 0
+      "version": "0.109",
+      "TP": 120,
+      "FP": 9,
+      "FN": 9,
+      "Precision": 0.930,
+      "Recall": 0.930,
+      "F1": 0.930,
+      "time_seconds": 22
     },
-    "dtrack": {
-      "TP": 0,
-      "FP": 0,
-      "FN": 129,
-      "Precision": 0,
-      "Recall": 0.0,
-      "F1": 0
-    },
-    "snyk": {
-      "TP": 0,
-      "FP": 0,
-      "FN": 129,
-      "Precision": 0,
-      "Recall": 0.0,
-      "F1": 0
+    "dependency_track": {
+      "version": "4.11",
+      "TP": 102,
+      "FP": 1,
+      "FN": 27,
+      "Precision": 0.990,
+      "Recall": 0.791,
+      "F1": 0.879,
+      "time_seconds": 12
     },
     "trivy": {
+      "version": "0.69",
       "TP": 0,
       "FP": 0,
       "FN": 129,
-      "Precision": 0,
-      "Recall": 0.0,
-      "F1": 0
+      "Precision": null,
+      "Recall": 0.000,
+      "F1": 0.000,
+      "time_seconds": 1
+    },
+    "snyk": {
+      "version": "1.x",
+      "TP": 0,
+      "FP": 0,
+      "FN": 129,
+      "Precision": null,
+      "Recall": 0.000,
+      "F1": 0.000,
+      "time_seconds": 11
     }
   },
   "phase2": {
     "snyk_unmanaged": {
+      "version": "1.x",
       "TP": 39,
       "FP": 8,
       "FN": 10,
-      "Precision": 83.0,
-      "Recall": 79.6,
-      "F1": 0.812
+      "Precision": 0.830,
+      "Recall": 0.796,
+      "F1": 0.812,
+      "time_seconds": 40
     },
     "owasp_dc": {
-      "TP": 0,
-      "FP": 0,
-      "FN": 49,
-      "Precision": 0,
-      "Recall": 0.0,
-      "F1": 0
+      "version": "11.1.1",
+      "TP": 6,
+      "FP": 22,
+      "FN": 43,
+      "Precision": 0.214,
+      "Recall": 0.122,
+      "F1": 0.156,
+      "time_seconds": 4,
+      "note": "Con DB cacheada (--noupdate). Primera ejecución con descarga NVD: ~1500 s."
     }
   },
   "phase3_full_gt": {
-    "cbt": {
-      "TP": 0,
-      "FP": 0,
-      "FN": 196,
-      "Precision": 0,
-      "Recall": 0.0,
-      "F1": 0
-    },
-    "grype": {
-      "TP": 0,
-      "FP": 0,
-      "FN": 196,
-      "Precision": 0,
-      "Recall": 0.0,
-      "F1": 0
-    },
-    "trivy": {
-      "TP": 0,
-      "FP": 0,
-      "FN": 196,
-      "Precision": 0,
-      "Recall": 0.0,
-      "F1": 0
-    },
     "emba": {
+      "version": "2.0.0",
+      "TP": 23,
+      "FP": 13,
+      "FN": 173,
+      "Precision": 0.639,
+      "Recall": 0.117,
+      "F1": 0.199,
+      "time_seconds": 10241,
+      "note": "GT completo 196 CVEs. Incluye FN estructurales de mbedTLS/wolfSSL sin versión semántica en binario."
+    },
+    "cve_bin_tool": {
+      "version": "3.4",
+      "TP": 18,
+      "FP": 1,
+      "FN": 178,
+      "Precision": 0.947,
+      "Recall": 0.092,
+      "F1": 0.167,
+      "time_seconds": 10
+    },
+    "grype_binary": {
+      "version": "0.109",
       "TP": 0,
       "FP": 0,
       "FN": 196,
-      "Precision": 0,
-      "Recall": 0.0,
-      "F1": 0
+      "Precision": null,
+      "Recall": 0.000,
+      "F1": 0.000,
+      "time_seconds": 9
+    },
+    "trivy_binary": {
+      "version": "0.69",
+      "TP": 0,
+      "FP": 0,
+      "FN": 196,
+      "Precision": null,
+      "Recall": 0.000,
+      "F1": 0.000,
+      "time_seconds": 1
     }
   },
   "phase3_effective_gt": {
-    "cbt": {
-      "TP": 0,
-      "FP": 0,
-      "FN": 37,
-      "Precision": 0,
-      "Recall": 0.0,
-      "F1": 0
+    "_comment": "GT restringido a 37 CVEs de librerías con versión semántica embebida: expat, libpng, SQLite, zlib.",
+    "emba": {
+      "version": "2.0.0",
+      "TP": 23,
+      "FP": 13,
+      "FN": 3,
+      "Precision": 0.639,
+      "Recall": 0.885,
+      "F1": 0.743,
+      "time_seconds": 10241
+    },
+    "cve_bin_tool": {
+      "version": "3.4",
+      "TP": 16,
+      "FP": 3,
+      "FN": 21,
+      "Precision": 0.842,
+      "Recall": 0.432,
+      "F1": 0.571,
+      "time_seconds": 10
     }
+  },
+  "pipeline_coverage": {
+    "selected_tools": {
+      "phase1": "Grype v0.109",
+      "phase2": "Snyk --unmanaged",
+      "phase3_fast": "CVE-Binary-Tool v3.4",
+      "phase3_deep": "EMBA v2.0.0"
+    },
+    "cumulative_tps_deduplicated": 132,
+    "total_gt": 196,
+    "coverage_percent": 67.3,
+    "coverage_excluding_structural_fn": 96.4,
+    "structural_fn_cves": 59,
+    "structural_fn_reason": "mbedTLS (35 CVEs) y wolfSSL (24 CVEs) no embeben versión semántica en el binario ELF"
+  },
+  "execution_environment": {
+    "date": "2026-04-07/16",
+    "os": "WSL2 Ubuntu 22.04",
+    "cpu": "AMD Ryzen 7",
+    "ram_gb": 16,
+    "storage": "SSD NVMe",
+    "nvd_api_version": "v2"
   }
 }

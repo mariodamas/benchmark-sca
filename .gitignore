@@ -33,5 +33,5 @@ __pycache__/
 .ort/
 ort-results/
 
-#claude
+# Editor / tooling
 .claude/
